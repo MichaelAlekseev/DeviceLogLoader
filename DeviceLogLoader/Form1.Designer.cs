@@ -56,6 +56,7 @@
             this.Input_text_box.TabIndex = 1;
             this.Input_text_box.TabStop = false;
             this.Input_text_box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Input_text_box.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Input_text_box_KeyPress);
             // 
             // button1
             // 
@@ -64,7 +65,6 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(123, 34);
             this.button1.TabIndex = 2;
-            this.button1.TabStop = false;
             this.button1.Text = "Load";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);

@@ -1,9 +1,11 @@
 ﻿using DeviceLogLoader.Network;
 using Serilog;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace DeviceLogLoader
@@ -16,7 +18,15 @@ namespace DeviceLogLoader
         {
             InitializeComponent();
             Logger.Configure();
+            LogStartWork();
             _httpClient = new Http();
+        }
+        
+        private static void LogStartWork()
+        {
+            Log.Information(new string('=', 70));
+            Log.Information($"[Main] - DeviceLogLoader started, version: {Assembly.GetExecutingAssembly().GetName().Version}");
+            Log.Information(new string('=', 70));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -73,6 +83,23 @@ namespace DeviceLogLoader
             {
                 Log.Error(e, "[LoadButton:SaveStreamAsFileAndOpen] - Catch exception:");
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK);
+            }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Log.Information(new string('=', 70));
+            Log.Information("[Main] - DeviceLogLoader shutting down...");
+            Log.Information(new string('=', 70));
+            base.OnClosing(e);
+        }
+
+        private void Input_text_box_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                Log.Information("[TextBox] - Enter key handled");
+                button1_Click(this, e);
             }
         }
     }
