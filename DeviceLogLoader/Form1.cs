@@ -41,12 +41,14 @@ namespace DeviceLogLoader
             if (ValidateResponseStatusCode(statusCode) is false)
             {
                 MessageBox.Show($"Server status code - {statusCode}", "Operation failed", MessageBoxButtons.OK);
+                ClearTextBox();
                 return;
             }
             var stream = content.ReadAsStreamAsync().GetAwaiter().GetResult();
             string fileName = content.Headers.ContentDisposition.FileName;
             Log.Information($"[LoadButton] - File '{fileName}' loaded.");
             SaveStreamAsFileAndOpen(stream, fileName);
+            ClearTextBox();
         }
 
         private static bool ValidateResponseStatusCode(HttpStatusCode? statusCode) => statusCode == HttpStatusCode.OK;
@@ -102,5 +104,7 @@ namespace DeviceLogLoader
                 button1_Click(this, e);
             }
         }
+
+        private void ClearTextBox() => Input_text_box.Text = null;
     }
 }
